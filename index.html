@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Mpanova PDF ho Soratra - Haingana & Maimaim-poana</title>
-    <meta name="description" content="Mpanova PDF ho soratra (Text) maimaim-poana sy haingana indrindra. Afaka mandika PDF ho amin'ny teny Malagasy, Frantsay, ary Anglisy. Tsy mila installation.">
-    <meta name="keywords" content="PDF to Text, Malagasy, PDF converter, Hanova PDF ho soratra, OCR, Free PDF tool">
-    <meta name="author" content="yajorohjr-cmd">
+    <title>PDF To Text - Mpanova PDF ho Soratra Maimaim-poana</title>
+    <meta name="description" content="Fitaovana maimaim-poana hanovana PDF ho soratra (text). Haingana, azo antoka, ary manohana ny teny Malagasy.">
+    <meta name="keywords" content="PDF to Text, Malagasy, Hanova PDF, OCR, Free Tool">
 
     <meta property="og:title" content="PDF To Text - Mpanova PDF haingana">
     <meta property="og:description" content="Havadiko ho soratra azo ovaina ny PDF-nao ao anatin'ny segondra vitsy.">
-    <meta property="og:image" content="https://yajorohjr-cmd.github.io/PDF-to-Text-online/logo.png">
-    <meta property="og:url" content="https://yajorohjr-cmd.github.io/PDF-to-Text-online/">
+    <meta property="og:image" content="logo.png">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
@@ -26,6 +24,7 @@
             --border: #dfe6e9;
             --input-bg: #ffffff;
             --success: #27ae60;
+            --danger: #e74c3c;
         }
 
         [data-theme="dark"] {
@@ -68,7 +67,8 @@
         .logo-img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
         h1 { text-align: center; color: var(--primary); margin: 0; font-size: 22px; }
-        .slogan { text-align: center; font-size: 12px; color: var(--text-sub); margin-bottom: 15px; }
+        .slogan { text-align: center; font-size: 12px; color: var(--text-sub); }
+        .warning-box { font-size: 10px; color: var(--danger); margin-top: 5px; font-weight: bold; text-align: center; }
 
         .ad-space { 
             background: var(--bg-body); 
@@ -113,6 +113,7 @@
             border-radius: 10px; padding: 12px; 
             box-sizing: border-box; font-size: 14px; 
             background: var(--input-bg); color: var(--text-main);
+            line-height: 1.5;
         }
         
         #status { font-size: 13px; color: var(--text-sub); text-align: center; margin-top: 10px; }
@@ -132,9 +133,10 @@
     </div>
 
     <div class="logo-container">
-        <img src="logo.png" alt="PDF Tool Logo" class="logo-img" id="main-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/337/337946.png'">
+        <img src="logo.png" alt="Logo" class="logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/337/337946.png'">
         <h1 id="title">PDF To Text</h1>
         <div class="slogan" id="slogan">Haingana - Mora - Maimaim-poana</div>
+        <div class="warning-box" id="warning-text">⚠️ Ny PDF misy soratra ihany no voavaky (Tsy mivaky ny sary/scan)</div>
     </div>
 
     <div class="share-container">
@@ -166,10 +168,10 @@
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
+    // Share links
     const currentUrl = encodeURIComponent(window.location.href);
-    const shareMsg = encodeURIComponent("Andramo ity tool mpanova PDF ho Text maimaim-poana ity! Haingana be:");
     document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-    document.getElementById('wa-share').href = `https://api.whatsapp.com/send?text=${shareMsg}%20${currentUrl}`;
+    document.getElementById('wa-share').href = `https://api.whatsapp.com/send?text=Andramo ity tool PDF to Text ity: ${currentUrl}`;
 
     function toggleTheme() {
         const body = document.body;
@@ -184,16 +186,16 @@
     }
 
     const i18n = {
-        mg: { title: "PDF To Text", slogan: "Haingana - Mora - Maimaim-poana", btn: "Havadika ho soratra", copy: "Copier", dl: "Télécharger", status: "Safidio ny rakitra PDF...", processing: "Eo am-pamakiana...", done: "✅ Vita!", alert: "Voadika ny soratra!" },
-        fr: { title: "PDF en Texte", slogan: "Rapide - Simple - Gratuit", btn: "Convertir", copy: "Copier", dl: "Télécharger", status: "Choisissez un fichier...", processing: "Traitement...", done: "✅ Terminé!", alert: "Texte copié!" },
-        en: { title: "PDF To Text", slogan: "Fast - Easy - Free", btn: "Convert", copy: "Copy", dl: "Download", status: "Choose a PDF...", processing: "Processing...", done: "✅ Success!", alert: "Text copied!" },
-        de: { title: "PDF zu Text", slogan: "Schnell - Einfach - Kostenlos", btn: "Umwandeln", copy: "Kopieren", dl: "Download", status: "PDF auswählen...", processing: "Wird bearbeitet...", done: "✅ Fertig!", alert: "Kopiert!" }
+        mg: { title: "PDF To Text", slogan: "Haingana - Mora - Maimaim-poana", warn: "⚠️ Ny PDF misy soratra ihany no voavaky (Tsy mivaky ny sary/scan)", btn: "Havadika ho soratra", copy: "Copier", dl: "Télécharger", status: "Safidio ny rakitra PDF...", processing: "Eo am-pamakiana...", done: "✅ Vita!", imgErr: "(Sary ity pejy ity ka tsy misy soratra)", finalErr: "Tsy misy soratra azo vaky!" },
+        fr: { title: "PDF en Texte", slogan: "Rapide - Simple - Gratuit", warn: "⚠️ Seuls les PDF avec texte sont supportés", btn: "Convertir", copy: "Copier", dl: "Télécharger", status: "Choisissez un fichier...", processing: "Traitement...", done: "✅ Terminé!", imgErr: "(Cette page est une image)", finalErr: "Aucun texte trouvé!" },
+        en: { title: "PDF To Text", slogan: "Fast - Easy - Free", warn: "⚠️ Only text-based PDFs are supported", btn: "Convert", copy: "Copy", dl: "Download", status: "Choose a PDF file...", processing: "Processing...", done: "✅ Success!", imgErr: "(This page is an image)", finalErr: "No text found!" }
     };
 
     function changeLang() {
         const l = document.getElementById('lang-select').value;
         document.getElementById('title').innerText = i18n[l].title;
         document.getElementById('slogan').innerText = i18n[l].slogan;
+        document.getElementById('warning-text').innerText = i18n[l].warn;
         document.getElementById('convert-btn').innerText = i18n[l].btn;
         document.getElementById('copy-btn').innerText = i18n[l].copy;
         document.getElementById('download-btn').innerText = i18n[l].dl;
@@ -207,16 +209,12 @@
         const progressBar = document.getElementById('p-bar');
         const pCont = document.getElementById('p-cont');
         const btn = document.getElementById('convert-btn');
-        const copyBtn = document.getElementById('copy-btn');
-        const dlBtn = document.getElementById('download-btn');
         const l = document.getElementById('lang-select').value;
 
-        if (!fileInput.files[0]) return alert("Safidio ny PDF!");
+        if (!fileInput.files[0]) return;
 
         btn.disabled = true;
         pCont.style.display = 'block';
-        copyBtn.style.display = 'none';
-        dlBtn.style.display = 'none';
         output.value = "";
         
         try {
@@ -224,6 +222,7 @@
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
             let fullText = "";
+            let hasText = false;
 
             for (let i = 1; i <= pdf.numPages; i++) {
                 let percent = Math.round((i / pdf.numPages) * 100);
@@ -232,14 +231,20 @@
 
                 const page = await pdf.getPage(i);
                 const textContent = await page.getTextContent();
-                const pageText = textContent.items.map(item => item.str).join(" ");
-                fullText += `[Pejy ${i}]\n` + pageText + "\n\n";
+                
+                if (textContent.items.length === 0) {
+                    fullText += `[Pejy ${i}]: ${i18n[l].imgErr}\n\n`;
+                } else {
+                    const pageText = textContent.items.map(item => item.str).join(" ");
+                    fullText += `[Pejy ${i}]\n` + pageText + "\n\n";
+                    hasText = true;
+                }
             }
 
             output.value = fullText;
-            statusBar.innerText = i18n[l].done;
-            copyBtn.style.display = 'block';
-            dlBtn.style.display = 'block';
+            statusBar.innerHTML = hasText ? i18n[l].done : `<b style="color:red;">${i18n[l].finalErr}</b>`;
+            document.getElementById('copy-btn').style.display = 'block';
+            document.getElementById('download-btn').style.display = 'block';
         } catch (e) {
             statusBar.innerText = "Error!";
         } finally {
@@ -249,10 +254,9 @@
 
     function copyText() {
         const text = document.getElementById('output');
-        const l = document.getElementById('lang-select').value;
         text.select();
         navigator.clipboard.writeText(text.value);
-        alert(i18n[l].alert);
+        alert("Copied!");
     }
 
     function downloadText() {
@@ -261,9 +265,8 @@
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = "pdf-to-text-result.txt";
+        a.download = "resultat.txt";
         a.click();
-        window.URL.revokeObjectURL(url);
     }
 </script>
 
