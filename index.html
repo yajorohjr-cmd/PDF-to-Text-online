@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional PDF To Text Tool</title>
+    
+    <title>Mpanova PDF ho Soratra - Haingana & Maimaim-poana</title>
+    <meta name="description" content="Mpanova PDF ho soratra (Text) maimaim-poana sy haingana indrindra. Afaka mandika PDF ho amin'ny teny Malagasy, Frantsay, ary Anglisy. Tsy mila installation.">
+    <meta name="keywords" content="PDF to Text, Malagasy, PDF converter, Hanova PDF ho soratra, OCR, Free PDF tool">
+    <meta name="author" content="yajorohjr-cmd">
+
+    <meta property="og:title" content="PDF To Text - Mpanova PDF haingana">
+    <meta property="og:description" content="Havadiko ho soratra azo ovaina ny PDF-nao ao anatin'ny segondra vitsy.">
+    <meta property="og:image" content="https://yajorohjr-cmd.github.io/PDF-to-Text-online/logo.png">
+    <meta property="og:url" content="https://yajorohjr-cmd.github.io/PDF-to-Text-online/">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 
@@ -55,11 +64,10 @@
             cursor: pointer; font-size: 11px; font-weight: bold;
         }
 
-        /* Logo Styling */
         .logo-container { text-align: center; margin-bottom: 15px; }
         .logo-img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        h2 { text-align: center; color: var(--primary); margin: 0; font-size: 22px; }
+        h1 { text-align: center; color: var(--primary); margin: 0; font-size: 22px; }
         .slogan { text-align: center; font-size: 12px; color: var(--text-sub); margin-bottom: 15px; }
 
         .ad-space { 
@@ -70,7 +78,6 @@
             font-size: 11px; color: var(--text-sub); border-radius: 10px; 
         }
 
-        /* Sharing Buttons */
         .share-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
         .share-btn { padding: 8px 15px; border-radius: 5px; color: white; text-decoration: none; font-size: 12px; font-weight: bold; }
         .bg-fb { background: #1877F2; }
@@ -126,7 +133,7 @@
 
     <div class="logo-container">
         <img src="logo.png" alt="PDF Tool Logo" class="logo-img" id="main-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/337/337946.png'">
-        <h2 id="title">PDF To Text</h2>
+        <h1 id="title">PDF To Text</h1>
         <div class="slogan" id="slogan">Haingana - Mora - Maimaim-poana</div>
     </div>
 
@@ -159,7 +166,6 @@
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-    // Fikirakirana Share Links
     const currentUrl = encodeURIComponent(window.location.href);
     const shareMsg = encodeURIComponent("Andramo ity tool mpanova PDF ho Text maimaim-poana ity! Haingana be:");
     document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
