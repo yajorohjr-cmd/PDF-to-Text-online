@@ -40,7 +40,7 @@
         .app-card { 
             background: var(--bg-card); 
             max-width: 550px; 
-            margin: 20px auto; 
+            margin: 10px auto; 
             padding: 25px; 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
@@ -52,22 +52,32 @@
             background: var(--primary);
             border: none; color: white;
             padding: 8px 15px; border-radius: 50px;
-            cursor: pointer; font-size: 12px; font-weight: bold;
+            cursor: pointer; font-size: 11px; font-weight: bold;
         }
 
-        h2 { text-align: center; color: var(--primary); margin-bottom: 5px; }
-        .slogan { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+        /* Logo Styling */
+        .logo-container { text-align: center; margin-bottom: 15px; }
+        .logo-img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+        h2 { text-align: center; color: var(--primary); margin: 0; font-size: 22px; }
+        .slogan { text-align: center; font-size: 12px; color: var(--text-sub); margin-bottom: 15px; }
 
         .ad-space { 
             background: var(--bg-body); 
-            height: 90px; margin: 15px 0; 
+            height: 80px; margin: 15px 0; 
             display: flex; align-items: center; justify-content: center; 
             border: 1px dashed var(--border); 
             font-size: 11px; color: var(--text-sub); border-radius: 10px; 
         }
 
+        /* Sharing Buttons */
+        .share-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .share-btn { padding: 8px 15px; border-radius: 5px; color: white; text-decoration: none; font-size: 12px; font-weight: bold; }
+        .bg-fb { background: #1877F2; }
+        .bg-wa { background: #25D366; }
+
         input[type="file"] { 
-            width: 100%; padding: 20px; 
+            width: 100%; padding: 15px; 
             margin: 10px 0; border: 2px dashed var(--border); 
             border-radius: 12px; box-sizing: border-box; 
             background: var(--input-bg); color: var(--text-main);
@@ -86,7 +96,6 @@
         #convert-btn { background: var(--primary); grid-column: 1 / -1; }
         #copy-btn { background: #6c5ce7; display: none; }
         #download-btn { background: var(--success); display: none; }
-        .action-btn:active { transform: scale(0.95); }
 
         .progress-container { display: none; margin-top: 20px; background: var(--border); border-radius: 10px; height: 10px; }
         .progress-bar { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; transition: width 0.2s; }
@@ -97,23 +106,16 @@
             border-radius: 10px; padding: 12px; 
             box-sizing: border-box; font-size: 14px; 
             background: var(--input-bg); color: var(--text-main);
-            line-height: 1.5;
         }
         
         #status { font-size: 13px; color: var(--text-sub); text-align: center; margin-top: 10px; }
-
-        select { 
-            padding: 8px; border-radius: 8px; 
-            background: var(--input-bg); color: var(--text-main); 
-            border: 1px solid var(--border);
-        }
     </style>
 </head>
 <body>
 
 <div class="app-card">
     <div class="top-bar">
-        <select id="lang-select" onchange="changeLang()">
+        <select id="lang-select" onchange="changeLang()" style="padding: 5px; border-radius: 5px; background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border);">
             <option value="mg">Malagasy</option>
             <option value="fr">Français</option>
             <option value="en">English</option>
@@ -122,8 +124,16 @@
         <button class="theme-btn" onclick="toggleTheme()" id="theme-text">Mode Nuit 🌙</button>
     </div>
 
-    <h2 id="title">📄 PDF To Text</h2>
-    <div class="slogan" id="slogan">Haingana - Mora - Maimaim-poana</div>
+    <div class="logo-container">
+        <img src="logo.png" alt="PDF Tool Logo" class="logo-img" id="main-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/337/337946.png'">
+        <h2 id="title">PDF To Text</h2>
+        <div class="slogan" id="slogan">Haingana - Mora - Maimaim-poana</div>
+    </div>
+
+    <div class="share-container">
+        <a href="#" id="fb-share" class="share-btn bg-fb" target="_blank">Facebook</a>
+        <a href="#" id="wa-share" class="share-btn bg-wa" target="_blank">WhatsApp</a>
+    </div>
     
     <div class="ad-space">DOKAM-BAROTRA (Ads Area)</div>
 
@@ -149,6 +159,12 @@
     const pdfjsLib = window['pdfjs-dist/build/pdf'];
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
+    // Fikirakirana Share Links
+    const currentUrl = encodeURIComponent(window.location.href);
+    const shareMsg = encodeURIComponent("Andramo ity tool mpanova PDF ho Text maimaim-poana ity! Haingana be:");
+    document.getElementById('fb-share').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+    document.getElementById('wa-share').href = `https://api.whatsapp.com/send?text=${shareMsg}%20${currentUrl}`;
+
     function toggleTheme() {
         const body = document.body;
         const themeBtn = document.getElementById('theme-text');
@@ -162,10 +178,10 @@
     }
 
     const i18n = {
-        mg: { title: "📄 PDF To Text", slogan: "Haingana - Mora - Maimaim-poana", btn: "Havadika ho soratra", copy: "Adika (Copie)", dl: "Hampidina (.txt)", status: "Safidio ny rakitra PDF...", processing: "Eo am-pamakiana...", done: "✅ Vita soa aman-tsara!", alert: "Voadika ny soratra!" },
-        fr: { title: "📄 PDF en Texte", slogan: "Rapide - Simple - Gratuit", btn: "Convertir en texte", copy: "Copier le texte", dl: "Télécharger (.txt)", status: "Choisissez un fichier PDF...", processing: "Traitement en cours...", done: "✅ Conversion terminée!", alert: "Texte copié!" },
-        en: { title: "📄 PDF To Text", slogan: "Fast - Easy - Free", btn: "Convert to Text", copy: "Copy Text", dl: "Download (.txt)", status: "Choose a PDF file...", processing: "Processing...", done: "✅ Success!", alert: "Text copied!" },
-        de: { title: "📄 PDF zu Text", slogan: "Schnell - Einfach - Kostenlos", btn: "In Text umwandeln", copy: "Text kopieren", dl: "Herunterladen (.txt)", status: "PDF-Datei auswählen...", processing: "Wird bearbeitet...", done: "✅ Fertig!", alert: "Text kopiert!" }
+        mg: { title: "PDF To Text", slogan: "Haingana - Mora - Maimaim-poana", btn: "Havadika ho soratra", copy: "Copier", dl: "Télécharger", status: "Safidio ny rakitra PDF...", processing: "Eo am-pamakiana...", done: "✅ Vita!", alert: "Voadika ny soratra!" },
+        fr: { title: "PDF en Texte", slogan: "Rapide - Simple - Gratuit", btn: "Convertir", copy: "Copier", dl: "Télécharger", status: "Choisissez un fichier...", processing: "Traitement...", done: "✅ Terminé!", alert: "Texte copié!" },
+        en: { title: "PDF To Text", slogan: "Fast - Easy - Free", btn: "Convert", copy: "Copy", dl: "Download", status: "Choose a PDF...", processing: "Processing...", done: "✅ Success!", alert: "Text copied!" },
+        de: { title: "PDF zu Text", slogan: "Schnell - Einfach - Kostenlos", btn: "Umwandeln", copy: "Kopieren", dl: "Download", status: "PDF auswählen...", processing: "Wird bearbeitet...", done: "✅ Fertig!", alert: "Kopiert!" }
     };
 
     function changeLang() {
